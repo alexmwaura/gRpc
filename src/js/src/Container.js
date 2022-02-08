@@ -3,6 +3,7 @@ const Container = (props) => (
     style={{
       width: "1200px",
       margin: "0 auto",
+      textAlign: "center"
     }}
   >
     {props.children}
