@@ -1,11 +1,11 @@
 import { Component } from "react";
 import { Table, Avatar, Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from "@ant-design/icons";
 import { getAllStudents } from "./client";
 import Container from "./Container";
+import Footer from "./Footer";
 
 const getIndicatorIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
 
 const columns = [
   {
@@ -50,6 +50,7 @@ class App extends Component {
   state = {
     students: null,
     isFetching: false,
+    numberOfStudents: 0,
   };
 
   componentDidMount() {
@@ -66,12 +67,13 @@ class App extends Component {
         this.setState({
           students,
           isFetching: false,
+          numberOfStudents: students.length,
         });
       });
   };
 
   render() {
-    const { students, isFetching } = this.state;
+    const { students, isFetching, numberOfStudents } = this.state;
 
     return (
       <div>
@@ -83,6 +85,7 @@ class App extends Component {
               rowKey="studentId"
               pagination={false}
             />
+            <Footer numberOfStudents={numberOfStudents} />
           </Container>
         ) : (
           <Container>
