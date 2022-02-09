@@ -4,7 +4,7 @@ server:
 
 app:
   datasource:
-    jdbc-url: jdbc:posgresql://localhost:5480/mwauracode
+    jdbc-url: jdbc:postgresql://localhost:5432/alex
     username: postgres
-    password: password
+    password: 43@gmail.
     pool0size: 30
