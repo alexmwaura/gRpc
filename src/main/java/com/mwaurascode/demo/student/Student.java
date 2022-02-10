@@ -37,6 +37,17 @@ public class Student {
         return email;
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId=" + studentId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
+
     public Gender getGender() {
         return gender;
     }
