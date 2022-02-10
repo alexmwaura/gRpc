@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Table, Avatar, Spin } from "antd";
+import { Table, Avatar, Spin, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { getAllStudents } from "./client";
 import Container from "./Container";
@@ -51,6 +51,7 @@ class App extends Component {
     students: null,
     isFetching: false,
     numberOfStudents: 0,
+    isAddStudentModalVisible: false,
   };
 
   componentDidMount() {
@@ -72,8 +73,13 @@ class App extends Component {
       });
   };
 
+  openAddStudentModal = () => this.setState({ isAddStudentModalVisible: true });
+  closeAddStudentModal = () =>
+    this.setState({ isAddStudentModalVisible: false });
+
   render() {
-    const { students, isFetching, numberOfStudents } = this.state;
+    const { students, isFetching, numberOfStudents, isAddStudentModalVisible } =
+      this.state;
 
     return (
       <div>
@@ -85,7 +91,20 @@ class App extends Component {
               rowKey="studentId"
               pagination={false}
             />
-            <Footer numberOfStudents={numberOfStudents} />
+            <Modal
+              title="Add new student"
+              visible={isAddStudentModalVisible}
+              onOk={this.closeAddStudentModal}
+              onCancel={this.closeAddStudentModal}
+              width={1000}
+            >
+              <h1>Hello modal</h1>
+            </Modal>
+
+            <Footer
+              numberOfStudents={numberOfStudents}
+              handleAddStudent={this.openAddStudentModal}
+            />
           </Container>
         ) : (
           <Container>
