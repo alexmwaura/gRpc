@@ -4,6 +4,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { getAllStudents } from "./client";
 import Container from "./Container";
 import Footer from "./Footer";
+import AddStudentsForm from "./forms/AddStudentForm";
 
 const getIndicatorIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -96,9 +97,9 @@ class App extends Component {
               visible={isAddStudentModalVisible}
               onOk={this.closeAddStudentModal}
               onCancel={this.closeAddStudentModal}
-              width={1000}
+              width={800}
             >
-              <h1>Hello modal</h1>
+              <AddStudentsForm />
             </Modal>
 
             <Footer
