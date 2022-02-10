@@ -1,5 +1,7 @@
 package com.mwaurascode.demo.student;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class Student {
@@ -13,7 +15,12 @@ public class Student {
         MALE, FEMALE
     }
 
-    public Student(UUID studentId, String firstName, String lastName, String email, Gender gender) {
+    public Student(
+            @JsonProperty("studentId") UUID studentId,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("email") String email,
+            @JsonProperty("gender") Gender gender) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
