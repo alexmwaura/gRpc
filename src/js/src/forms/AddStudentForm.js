@@ -36,10 +36,11 @@ export default class AddStudents extends Component {
           }
           return errors;
         }}
-        onSubmit={async (student, { setSubmitting }) => {
-         await addNewStudent(student).then((res) => {
-            setSubmitting(false);
-          })
+        onSubmit={(student, { setSubmitting }) => {
+          addNewStudent(student)
+            .then((res) => {
+              setSubmitting(false);
+            })
         }}
       >
         {({

@@ -3,7 +3,7 @@ import fetch from "unfetch";
 export const getAllStudents = () => fetch("/api/students");
 
 export const addNewStudent = (student) =>
-  fetch("http://localhost:8080/api/students", {
+  fetch("/api/students", {
     headers: {
       'Content-Type': 'application/json',
     },

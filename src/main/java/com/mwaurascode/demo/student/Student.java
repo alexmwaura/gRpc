@@ -12,7 +12,7 @@ public class Student {
     private final Gender gender;
 
     enum Gender {
-        MALE, FEMALE
+        MALE, FEMALE, male, female
     }
 
     public Student(
