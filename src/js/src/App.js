@@ -1,11 +1,12 @@
 import { Component } from "react";
-import { Table, Avatar, Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+import { Table, Avatar, Spin, Modal } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { getAllStudents } from "./client";
 import Container from "./Container";
+import Footer from "./Footer";
+import AddStudentsForm from "./forms/AddStudentForm";
 
 const getIndicatorIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
 
 const columns = [
   {
@@ -50,6 +51,8 @@ class App extends Component {
   state = {
     students: null,
     isFetching: false,
+    numberOfStudents: 0,
+    isAddStudentModalVisible: false,
   };
 
   componentDidMount() {
@@ -66,12 +69,18 @@ class App extends Component {
         this.setState({
           students,
           isFetching: false,
+          numberOfStudents: students.length,
         });
       });
   };
 
+  openAddStudentModal = () => this.setState({ isAddStudentModalVisible: true });
+  closeAddStudentModal = () =>
+    this.setState({ isAddStudentModalVisible: false });
+
   render() {
-    const { students, isFetching } = this.state;
+    const { students, isFetching, numberOfStudents, isAddStudentModalVisible } =
+      this.state;
 
     return (
       <div>
@@ -82,6 +91,25 @@ class App extends Component {
               columns={columns}
               rowKey="studentId"
               pagination={false}
+            />
+            <Modal
+              title="Add new student"
+              visible={isAddStudentModalVisible}
+              onOk={this.closeAddStudentModal}
+              onCancel={this.closeAddStudentModal}
+              width={800}
+            >
+              <AddStudentsForm
+                onSuccess={() => {
+                  this.closeAddStudentModal();
+                  this.fetchStudents();
+                }}
+              />
+            </Modal>
+
+            <Footer
+              numberOfStudents={numberOfStudents}
+              handleAddStudent={this.openAddStudentModal}
             />
           </Container>
         ) : (
