@@ -18,7 +18,7 @@ public class StudentDataAccessService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-     List<Student> selectAllStudents() {
+    List<Student> selectAllStudents() {
         String sql = "" +
                 "SELECT" +
                 " student_id, " +
@@ -42,5 +42,10 @@ public class StudentDataAccessService {
             Student.Gender gender = Student.Gender.valueOf(genderStr);
             return new Student(studentId, firstName, lastName, email, gender);
         };
+    }
+
+    public int insertStudent(UUID newStudentId, Student student) {
+        return 0;
+
     }
 }
