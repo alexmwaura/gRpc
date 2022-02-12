@@ -53,6 +53,7 @@ class App extends Component {
     isFetching: false,
     numberOfStudents: 0,
     isAddStudentModalVisible: false,
+    errorMessage: null,
   };
 
   componentDidMount() {
@@ -66,11 +67,18 @@ class App extends Component {
     getAllStudents()
       .then((res) => res.json())
       .then((students) => {
-        this.setState({
-          students,
-          isFetching: false,
-          numberOfStudents: students.length,
-        });
+        if (!students.length) {
+          this.setState({
+            errorMessage: students.error,
+            isFetching: false,
+          });
+        } else if (students.length) {
+          this.setState({
+            students,
+            isFetching: false,
+            numberOfStudents: students.length,
+          });
+        }
       });
   };
 
@@ -79,8 +87,13 @@ class App extends Component {
     this.setState({ isAddStudentModalVisible: false });
 
   render() {
-    const { students, isFetching, numberOfStudents, isAddStudentModalVisible } =
-      this.state;
+    const {
+      students,
+      isFetching,
+      numberOfStudents,
+      isAddStudentModalVisible,
+      errorMessage,
+    } = this.state;
 
     return (
       <div>
@@ -107,14 +120,21 @@ class App extends Component {
               />
             </Modal>
 
-            <Footer
-              numberOfStudents={numberOfStudents}
-              handleAddStudent={this.openAddStudentModal}
-            />
+            {errorMessage ? null : (
+              <Footer
+                numberOfStudents={numberOfStudents}
+                handleAddStudent={this.openAddStudentModal}
+              />
+            )}
           </Container>
         ) : (
           <Container>
             <Spin indicator={getIndicatorIcon} />
+          </Container>
+        )}
+        {errorMessage && (
+          <Container>
+            <h1>{errorMessage}</h1>
           </Container>
         )}
       </div>
