@@ -2,17 +2,27 @@ package com.mwaurascode.demo.student;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class Student {
     private final UUID studentId;
+
+    @NotBlank
     private final String firstName;
+
+    @NotBlank
     private final String lastName;
+
+    @NotBlank
     private final String email;
+
+    @NotNull
     private final Gender gender;
 
     enum Gender {
-        MALE, FEMALE, male, female
+        MALE, FEMALE
     }
 
     public Student(

@@ -31,6 +31,8 @@ const AddStudentsForm = (props) => {
           !["MALE", "male", "FEMALE", "female"].includes(values.gender)
         ) {
           errors.gender = "Gender must be (MALE, male, FEMALE, female)";
+        } else if (values.gender) {
+          values.gender = values.gender.toUpperCase();
         }
         return errors;
       }}
