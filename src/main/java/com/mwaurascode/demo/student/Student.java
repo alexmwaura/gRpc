@@ -2,6 +2,7 @@ package com.mwaurascode.demo.student;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class Student {
     @NotBlank
     private final String lastName;
 
-    @NotBlank
+    @Email
     private final String email;
 
     @NotNull
