@@ -7,8 +7,7 @@ const checkStatus = (response) => {
     let error = new Error(response.statusText);
     error.response = response;
     response.json().then((e) => {
-      console.log(e)
-      error.error = e.error;
+      error.error = e;
     });
     return Promise.reject(error);
   }

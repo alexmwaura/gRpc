@@ -74,9 +74,9 @@ class App extends Component {
           numberOfStudents: students.length,
         });
       })
-      .catch((error) => {
-        const message = "Oops cannot get all students";
-        openNotification("error", message, error.error);
+      .catch((e) => {
+        const { message, httpStatus } = e.error;
+        openNotification("error", message, httpStatus);
         this.setState({
           isFetching: false,
           isError: true,
