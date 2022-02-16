@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -33,7 +34,7 @@ public class StudentDataAccessService {
     int insertStudent(UUID studentId, Student student) {
         String sql = "" +
                 "INSERT INTO student (student_id, first_name, last_name, email, gender)" +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?::gender)";
         return jdbcTemplate.update(
                 sql,
                 studentId,
@@ -56,6 +57,48 @@ public class StudentDataAccessService {
             Student.Gender gender = Student.Gender.valueOf(genderStr);
             return new Student(studentId, firstName, lastName, email, gender);
         };
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    boolean isEmailTaken(String email) {
+        String sql = "" + "SELECT EXISTS (" +
+                " SELECT 1 " +
+                " FROM student " +
+                " WHERE email = ?" +
+                ")";
+        return jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{email},
+                (resultSet, i) -> resultSet.getBoolean(1)
+        );
+    }
+
+    List<StudentCourse> selectAllStudentCourses(UUID studentId) {
+        String sql = "" +
+                "SELECT " +
+                "*" +
+                " FROM student " +
+                " JOIN student_course USING (student_id)" +
+                " JOIN course USING (course_id) " +
+                " WHERE student.student_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{studentId}, mapStudentCourseFromDb());
+    }
+
+    private RowMapper<StudentCourse> mapStudentCourseFromDb() {
+        return (resultSet, i) ->
+                new StudentCourse(
+                        UUID.fromString(resultSet.getString("student_id")),
+                        UUID.fromString(resultSet.getString("course_id")),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("department"),
+                        resultSet.getString("teacher_name"),
+                        resultSet.getDate("start_date").toLocalDate(),
+                        resultSet.getDate("end_date").toLocalDate(),
+                        Optional.ofNullable(resultSet.getString("grade"))
+                                .map(Integer::parseInt)
+                                .orElse(null)
+                );
     }
 
 }

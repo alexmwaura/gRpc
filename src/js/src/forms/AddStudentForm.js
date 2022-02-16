@@ -31,14 +31,22 @@ const AddStudentsForm = (props) => {
           !["MALE", "male", "FEMALE", "female"].includes(values.gender)
         ) {
           errors.gender = "Gender must be (MALE, male, FEMALE, female)";
+        } else if (values.gender) {
+          values.gender = values.gender.toUpperCase();
         }
         return errors;
       }}
       onSubmit={(student, { setSubmitting }) => {
-        addNewStudent(student).then((res) => {
-          props.onSuccess();
-          setSubmitting(false);
-        });
+        addNewStudent(student)
+          .then(() => {
+            props.onSuccess();
+          })
+          .catch((err) => {
+            props.onFailure(err);
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
       }}
     >
       {({
